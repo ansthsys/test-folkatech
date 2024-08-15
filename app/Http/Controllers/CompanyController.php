@@ -39,6 +39,8 @@ class CompanyController extends Controller
         if ($request->hasFile('logo')) {
             $payload['logo'] = $request->file('logo')->store('public/company-logo');
             $payload['logo'] = Storage::url($payload['logo']);
+        } else {
+            $payload['logo'] = "https://ui-avatars.com/api/?name={$payload['name']}";
         }
 
         Company::create($payload);
@@ -51,7 +53,9 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        //
+        return view('page.company.show', [
+            'company' => $company,
+        ]);
     }
 
     /**

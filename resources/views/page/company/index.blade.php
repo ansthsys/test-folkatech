@@ -40,8 +40,8 @@
                       </div>
                     </td>
                     <td class="">{{ $company->name }}</td>
-                    <td class="">{{ $company->email }}</td>
-                    <td class="">{{ $company->website }}</td>
+                    <td class="">{{ $company->email ?? '-' }}</td>
+                    <td class="">{{ $company->website ?? '-' }}</td>
                     <td class="">
                       <div class="flex flex-row items-center justify-evenly">
                         <a href="{{ route('companies.show', $company->id) }}"
