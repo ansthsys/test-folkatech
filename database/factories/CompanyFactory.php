@@ -28,7 +28,7 @@ class CompanyFactory extends Factory
             'name' => $companyName,
             'email' => "$username@$domain",
             'logo' => "https://ui-avatars.com/api/?name=$companyName",
-            'website' => $domain,
+            'website' => "https://$domain",
         ];
     }
 }

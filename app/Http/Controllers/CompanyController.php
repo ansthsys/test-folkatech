@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
@@ -63,7 +64,12 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        //
+        $prevUrl = url()->previous();
+
+        return view('page.company.edit', [
+            'company' => $company,
+            'prevUrl' => $prevUrl,
+        ]);
     }
 
     /**
@@ -71,7 +77,23 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        //
+        if ($request->hasFile('logo')) {
+            $payload = $request->validated();
+            $payload['logo'] = $request->file('logo')->store('public/company-logo');
+            $payload['logo'] = Storage::url($payload['logo']);
+
+            if (Storage::exists($company->logo)) {
+                Storage::delete($company->logo);
+            }
+        } else {
+            $payload = $request->validated();
+        }
+
+        $company->update($payload);
+
+        return to_route('companies.show', $company);
+
+        return dd($payload, $company->isDirty("name"));
     }
 
     /**
@@ -79,6 +101,12 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        if (Storage::exists($company->logo)) {
+            Storage::delete($company->logo);
+        }
+
+        $company->delete();
+
+        return to_route('companies.index');
     }
 }

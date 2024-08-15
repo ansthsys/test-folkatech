@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
 class UpdateCompanyRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class UpdateCompanyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +23,28 @@ class UpdateCompanyRequest extends FormRequest
      */
     public function rules(): array
     {
+        $company = $this->route("company");
+
         return [
-            //
+            "name" => [
+                "required",
+                "string",
+                Rule::unique('companies', 'name')
+                    ->ignore($company->id),
+                "max:255"
+            ],
+            "email" => ["nullable", "email", "max:255"],
+            "website" => ["nullable", "url", "max:255"],
+            "logo" => [
+                "nullable",
+                File::image()
+                    ->max("2mb")
+                    ->dimensions(
+                        Rule::dimensions()
+                            ->minHeight(100)
+                            ->minWidth(100)
+                    )
+            ],
         ];
     }
 }
