@@ -32,7 +32,7 @@
                   <div class="my-2">
                     <x-input-label for="website" :value="__('Website')" />
                     <x-text-input id="website" class="block mt-1 w-full" type="url" name="website"
-                      :value="old('email')" />
+                      :value="old('website')" />
                     <x-input-error :messages="$errors->get('website')" class="mt-2" />
                   </div>
 

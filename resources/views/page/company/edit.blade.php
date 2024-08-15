@@ -53,7 +53,7 @@
                   </div>
 
                   <div class="flex flex-row items-center justify-end gap-5 mt-10 w-full">
-                    <a href="{{ $prevUrl }}"
+                    <a href="{{ route('companies.show', [$company->id]) }}"
                       class="border py-2 px-3 rounded-xl bg-gray-900 hover:bg-gray-100 hover:text-gray-900">Cancel
                     </a>
 

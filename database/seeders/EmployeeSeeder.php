@@ -13,8 +13,8 @@ class EmployeeSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 0; $i < 20; $i++) { // Seed company size
-            for ($j = 0; $j < 30; $j++) { // Total employee per company 
+        for ($i = 0; $i < 15; $i++) { // Seed company size
+            for ($j = 0; $j < rand(5, 15); $j++) { // Total employee per company 
                 Employee::factory()->create([
                     'company_id' => $i + 1,
                 ]);

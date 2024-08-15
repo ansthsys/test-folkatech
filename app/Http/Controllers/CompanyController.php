@@ -64,11 +64,8 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        $prevUrl = url()->previous();
-
         return view('page.company.edit', [
             'company' => $company,
-            'prevUrl' => $prevUrl,
         ]);
     }
 

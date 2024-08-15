@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-      {{ __('Companies') }}
+      {{ __('Employees') }}
     </h2>
   </x-slot>
 
@@ -10,9 +10,8 @@
       <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-gray-900 dark:text-gray-100">
           <div class="flex flex-row items-center justify-end w-full">
-            {{-- <h2>Company lists</h2> --}}
 
-            <a href="{{ route('companies.create') }}"
+            <a href="{{ route('employees.create') }}"
               class="border py-2 px-3 rounded-xl bg-gray-900 hover:bg-gray-100 hover:text-gray-900">Create
             </a>
           </div>
@@ -31,7 +30,11 @@
                           <th scope="col"
                             class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8">Name
                           </th>
-                          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Website
+                          <th scope="col"
+                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8">
+                            Email
+                          </th>
+                          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Phone
                           </th>
                           <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 lg:pr-8">
                             <span class="sr-only">Edit</span>
@@ -39,39 +42,40 @@
                         </tr>
                       </thead>
                       <tbody class="divide-y divide-gray-200 bg-white">
-                        @foreach ($companies as $key => $company)
+                        @foreach ($employees as $key => $employee)
                           <tr>
                             <td
                               class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8 text-center">
-                              {{ $companies->firstItem() + $key }}
+                              {{ $employees->firstItem() + $key }}
                             </td>
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                               <div class="flex items-center">
-                                <div class="h-10 w-10 flex-shrink-0 overflow-hidden">
-                                  <img class="rounded-full object-cover h-full border" src="{{ $company->logo }}"
-                                    alt="{{ $company->name }}">
-                                </div>
                                 <div class="ml-4">
-                                  <div class="font-medium text-gray-900">{{ $company->name }}</div>
-                                  <div class="text-gray-500">{{ $company->email ?? '-' }}</div>
+                                  <div class="font-medium text-gray-900">
+                                    {{ "$employee->first_name $employee->last_name" }}</div>
+                                  <div class="text-gray-500">{{ $employee->company->name }}</div>
                                 </div>
                               </div>
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $company->website ?? '-' }}
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {{ $employee->email ?? '-' }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {{ $employee->phone ?? '-' }}
                             </td>
                             <td
                               class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 lg:pr-8">
-                              <a href="{{ route('companies.show', [$company->id]) }}"
+                              <a href="{{ route('employees.show', [$employee->id]) }}"
                                 class="text-indigo-600 hover:text-indigo-900 my-2">Detail<span
-                                  class="sr-only">{{ $company->name }}</span></a>
+                                  class="sr-only">{{ $employee->name }}</span></a>
                             </td>
                           </tr>
                         @endforeach
 
-                        @if ($companies->isEmpty())
+                        @if ($employees->isEmpty())
                           <tr>
                             <td colspan="4" class="py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-6 lg:pl-8 text-center">
-                              No company found
+                              No employee found
                             </td>
                           </tr>
                         @endif
@@ -84,7 +88,7 @@
           </div>
 
           <div>
-            {{ $companies->links() }}
+            {{ $employees->onEachSide(1)->links() }}
           </div>
         </div>
       </div>
