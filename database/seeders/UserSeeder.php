@@ -17,6 +17,6 @@ class UserSeeder extends Seeder
             'name' => 'Admin Folkatech',
             'email' => 'admin@folkatech.com',
             'password' => bcrypt('password'),
-        ]);
+        ])->assignRole('admin');
     }
 }
