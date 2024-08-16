@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Mail\NewEmployee;
 use App\Models\Company;
+use Illuminate\Support\Facades\Mail;
 
 class EmployeeController extends Controller
 {
@@ -38,9 +40,14 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        Employee::create($request->validated());
+        $employee = Employee::create($request->validated());
+        $company = $employee->company;
 
-        return to_route('employees.index');
+        if ($company->email) {
+            Mail::to($company->email)->send(new NewEmployee($employee));
+        }
+
+        return to_route('employees.show', [$employee->id]);
     }
 
     /**

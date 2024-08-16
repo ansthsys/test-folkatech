@@ -44,9 +44,9 @@ class CompanyController extends Controller
             $payload['logo'] = "https://ui-avatars.com/api/?name={$payload['name']}";
         }
 
-        Company::create($payload);
+        $company = Company::create($payload);
 
-        return to_route('companies.index');
+        return to_route('companies.show', [$company->id]);
     }
 
     /**
